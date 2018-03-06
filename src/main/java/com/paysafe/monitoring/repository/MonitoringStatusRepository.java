@@ -19,7 +19,7 @@ public class MonitoringStatusRepository {
         if(serverStatusMap.get(url) != null){
             linkedServerStatus  = serverStatusMap.get(url);
         } else{
-            linkedServerStatus = new LinkedList<>(Arrays.asList());
+            linkedServerStatus = new LinkedList<>();
         }
 
         linkedServerStatus.add(ServerStatus.builder().date(LocalDateTime.now()).status(response.getStatus()).build());
