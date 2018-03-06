@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,10 +14,13 @@ import java.util.stream.Collectors;
 @Component
 public class MonitoringStatusRepository {
 
-    private Map<String, ServerStatus> serverStatusMap = new HashMap<>();
+    private Map<String, LinkedList<ServerStatus>> serverStatusMap = new HashMap<>();
 
-    public Map<String, ServerStatus> saveServerStatus(String url, StatusResponse response){
-        serverStatusMap.put(url, ServerStatus.builder().date(LocalDateTime.now()).status(response.getStatus()).build());
+    public Map<String, LinkedList<ServerStatus>> saveServerStatus(String url, StatusResponse response){
+
+        LinkedList<ServerStatus> serverStat = new LinkedList<>();
+        serverStat.add(ServerStatus.builder().date(LocalDateTime.now()).status(response.getStatus()).build());
+        serverStatusMap.put(url, serverStat);
         return serverStatusMap;
     }
 
@@ -24,9 +28,8 @@ public class MonitoringStatusRepository {
         List<ServerStatus> serverStatusList =  serverStatusMap.entrySet()
                 .stream()
                 .filter(p -> p.getKey().equals(url))
-                .map(map -> map.getValue())
+                .flatMap(as -> as.getValue().stream())
                 .collect(Collectors.toList());
-
         return serverStatusList;
     }
 }
