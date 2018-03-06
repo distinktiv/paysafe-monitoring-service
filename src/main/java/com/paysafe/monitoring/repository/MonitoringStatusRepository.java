@@ -15,11 +15,12 @@ import java.util.stream.Collectors;
 public class MonitoringStatusRepository {
 
     private Map<String, LinkedList<ServerStatus>> serverStatusMap = new HashMap<>();
-    private LinkedList<ServerStatus> serverStat = new LinkedList<>();
 
     public Map<String, LinkedList<ServerStatus>> saveServerStatus(String url, StatusResponse response){
-        serverStat.add(ServerStatus.builder().date(LocalDateTime.now()).status(response.getStatus()).build());
-        serverStatusMap.put(url, serverStat);
+        LinkedList<ServerStatus> linkedServerStatus  = serverStatusMap.get(url);
+        linkedServerStatus.add(ServerStatus.builder().date(LocalDateTime.now()).status(response.getStatus()).build());
+        
+        serverStatusMap.put(url, linkedServerStatus);
         return serverStatusMap;
     }
 
