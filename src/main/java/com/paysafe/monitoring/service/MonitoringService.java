@@ -60,6 +60,7 @@ public class MonitoringService {
             if(scheduler.checkExists(jobKey)){
                 scheduler.deleteJob(jobKey);
             }
+            monitoringStatusRepository.deleteStatus(monitoringParams.getUrl());
         } catch (SchedulerException e) {
             log.error("Error while stopping Job ", e);
         }

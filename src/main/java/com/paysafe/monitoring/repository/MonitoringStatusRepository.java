@@ -15,10 +15,9 @@ import java.util.stream.Collectors;
 public class MonitoringStatusRepository {
 
     private Map<String, LinkedList<ServerStatus>> serverStatusMap = new HashMap<>();
+    private LinkedList<ServerStatus> serverStat = new LinkedList<>();
 
     public Map<String, LinkedList<ServerStatus>> saveServerStatus(String url, StatusResponse response){
-
-        LinkedList<ServerStatus> serverStat = new LinkedList<>();
         serverStat.add(ServerStatus.builder().date(LocalDateTime.now()).status(response.getStatus()).build());
         serverStatusMap.put(url, serverStat);
         return serverStatusMap;
@@ -31,5 +30,9 @@ public class MonitoringStatusRepository {
                 .flatMap(as -> as.getValue().stream())
                 .collect(Collectors.toList());
         return serverStatusList;
+    }
+
+    public void deleteStatus(String url) {
+        serverStatusMap.get(url).clear();
     }
 }
