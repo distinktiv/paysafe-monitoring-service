@@ -12,7 +12,7 @@ mvn spring-boot:run
 ### Assumptions and Limitations
 - The interval is greater than zero.
 - The url is valid
-- We could pass the url in the stop and getStatus rather than all the object.
+- We could pass the url in the stop and rather than all the object.
 
 ### Documentation
 The swagger documentation can be reach at http://localhost:8080
