@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,8 +35,8 @@ public class MonitoringController {
     }
 
     @RequestMapping(value = "/status", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<ServerStatus>> getMonitoringStatus(@Valid @RequestBody MonitoringParams monitoringParams){
-        List<ServerStatus> statusList = monitoringService.getStatus(monitoringParams.getUrl());
+    public ResponseEntity<List<ServerStatus>> getMonitoringStatus(@RequestParam("url") String url){
+        List<ServerStatus> statusList = monitoringService.getStatus(url);
         return new ResponseEntity<List<ServerStatus>>(statusList, HttpStatus.OK);
     }
 }
